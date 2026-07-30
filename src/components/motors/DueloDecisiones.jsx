@@ -138,35 +138,35 @@ const OptionBtn = ({ label, index, onClick, disabled, revealed }) => {
       style={{
         background: revealed ? '#dcfce7' : '#ffffff',
         border: `3px solid ${disabled && !revealed ? '#cbd5e1' : color}`,
-        borderRadius: 16,
+        borderRadius: 12,
         color: disabled && !revealed ? '#94a3b8' : '#1e293b',
-        padding: '16px 20px',
+        padding: '10px 12px',
         cursor: disabled ? 'not-allowed' : 'pointer',
         display: 'flex',
         alignItems: 'center',
-        gap: 16,
-        fontWeight: 800,
-        fontSize: 16,
+        gap: 10,
+        fontWeight: 700,
+        fontSize: 13,
         transition: 'all 0.1s ease',
-        boxShadow: disabled ? 'none' : `0 6px 0 ${color}`,
+        boxShadow: disabled ? 'none' : `0 4px 0 ${color}`,
         textAlign: 'left',
         width: '100%',
         position: 'relative',
         overflow: 'hidden'
       }}
-      onMouseDown={e => { if (!disabled) { e.currentTarget.style.transform = 'translateY(4px)'; e.currentTarget.style.boxShadow = 'none'; } }}
-      onMouseUp={e => { if (!disabled) { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = `0 6px 0 ${color}`; } }}
-      onMouseLeave={e => { if (!disabled) { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = `0 6px 0 ${color}`; } }}
+      onMouseDown={e => { if (!disabled) { e.currentTarget.style.transform = 'translateY(3px)'; e.currentTarget.style.boxShadow = 'none'; } }}
+      onMouseUp={e => { if (!disabled) { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = `0 4px 0 ${color}`; } }}
+      onMouseLeave={e => { if (!disabled) { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = `0 4px 0 ${color}`; } }}
     >
       <div style={{
         background: color, color: '#fff', borderRadius: '50%',
-        width: 32, height: 32, display: 'flex', alignItems: 'center', justifyContent: 'center',
-        flexShrink: 0, fontSize: 16
+        width: 26, height: 26, display: 'flex', alignItems: 'center', justifyContent: 'center',
+        flexShrink: 0, fontSize: 13
       }}>
         {['A', 'B', 'C', 'D'][index]}
       </div>
-      <span style={{ flex: 1 }}>{label}</span>
-      {revealed && <div style={{ position: 'absolute', right: 16, fontSize: 24, animation: 'pulse 1s infinite' }}>⭐</div>}
+      <span style={{ flex: 1, lineHeight: 1.2 }}>{label}</span>
+      {revealed && <div style={{ position: 'absolute', right: 10, fontSize: 18, animation: 'pulse 1s infinite' }}>⭐</div>}
     </button>
   );
 };
@@ -338,7 +338,7 @@ const DueloDecisiones = ({ data, onGameEnd }) => {
     <div style={{
       width: '100%',
       maxWidth: 1000,
-      height: 700,
+      aspectRatio: '10 / 7',
       margin: '0 auto',
       position: 'relative',
       borderRadius: 24,
@@ -414,14 +414,14 @@ const DueloDecisiones = ({ data, onGameEnd }) => {
       </div>
 
       <div style={{
-        position: 'absolute', bottom: 270, right: 30, zIndex: 10,
+        position: 'absolute', bottom: '43%', right: '3%', zIndex: 10,
         opacity: (fase !== 'inicio' && fase !== 'intro_enemy') ? 1 : 0, transition: 'opacity 0.5s ease',
       }}>
         <CharCard nombre={nombreJugador} nivel={100} hp={hpJugador} maxHp={maxHpJugador} extraBorder="#3b82f6" />
       </div>
 
       <div style={{
-        position: 'absolute', bottom: 230, left: 80, zIndex: 6,
+        position: 'absolute', bottom: '38%', left: '8%', zIndex: 6,
         transform: (fase !== 'inicio' && fase !== 'intro_enemy') ? 'translateX(0)' : 'translateX(-400px)',
         transition: 'transform 1s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
         opacity: (fase !== 'inicio' && fase !== 'intro_enemy') ? 1 : 0
@@ -429,26 +429,26 @@ const DueloDecisiones = ({ data, onGameEnd }) => {
         <Sprite src={heroUrl} alt={nombreJugador} animate={!gameOver} shake={shakeJugador} flip={false} size={320} />
       </div>
 
-      {/* ── PANEL INFERIOR (250px height) ── */}
+      {/* ── PANEL INFERIOR ── */}
       {(fase === 'turno_jugador' || fase === 'evaluacion' || gameOver) && (
         <div style={{
           position: 'absolute', bottom: 0, left: 0, right: 0,
-          padding: 30,
+          padding: '2% 2.5%',
           display: 'flex',
-          gap: 30,
+          gap: '2%',
           alignItems: 'stretch',
-          height: 250,
+          height: '40%',
           zIndex: 100,
           animation: 'slide-up 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)'
         }}>
 
           {/* Opciones o Menú Principal */}
-          <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0 }}>
             {!gameOver && menuFase === 'principal' && fase === 'turno_jugador' && (
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, height: '100%' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, height: '100%' }}>
                 <ActionBtn icon="⚔️" label="Responder" color="#3b82f6" onClick={() => setMenuFase('opciones')} />
                 <ActionBtn
-                  icon="🃏" label={`Activar daño doble (${comodines})`} color="#8b5cf6"
+                  icon="🃏" label={`Daño doble (${comodines})`} color="#8b5cf6"
                   disabled={comodines <= 0 || dobleDaño}
                   onClick={() => { setComodines(c => c - 1); setDobleDaño(true); }}
                 />
@@ -462,8 +462,8 @@ const DueloDecisiones = ({ data, onGameEnd }) => {
             )}
 
             {!gameOver && menuFase === 'opciones' && fase === 'turno_jugador' && (
-              <div style={{ display: 'flex', flexDirection: 'column', height: '100%', gap: 12 }}>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, flex: 1 }}>
+              <div style={{ display: 'flex', flexDirection: 'column', height: '100%', gap: 8 }}>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, flex: 1 }}>
                   {escena.opciones.map((op, i) => (
                     <OptionBtn
                       key={i} index={i} label={op}
@@ -475,7 +475,7 @@ const DueloDecisiones = ({ data, onGameEnd }) => {
                 </div>
                 <button
                   onClick={() => setMenuFase('principal')}
-                  style={{ alignSelf: 'flex-start', background: '#334155', border: 'none', color: '#fff', padding: '8px 16px', borderRadius: 8, fontWeight: 800, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 8, transition: 'background 0.2s' }}
+                  style={{ alignSelf: 'flex-start', background: '#334155', border: 'none', color: '#fff', padding: '6px 14px', borderRadius: 8, fontWeight: 800, fontSize: 13, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6, transition: 'background 0.2s' }}
                   onMouseEnter={e => e.currentTarget.style.background = '#475569'}
                   onMouseLeave={e => e.currentTarget.style.background = '#334155'}
                 >
@@ -487,11 +487,12 @@ const DueloDecisiones = ({ data, onGameEnd }) => {
 
           {/* Caja PREGUNTA */}
           <div style={{
-            width: 380,
+            width: '35%',
+            minWidth: 200,
             background: 'rgba(255, 255, 255, 0.95)',
             border: '4px solid #1e293b',
-            borderRadius: 20,
-            padding: '30px 24px',
+            borderRadius: 16,
+            padding: '20px 14px',
             display: 'flex',
             flexDirection: 'column',
             boxShadow: '0 8px 0 rgba(0,0,0,0.15)',
@@ -516,7 +517,7 @@ const DueloDecisiones = ({ data, onGameEnd }) => {
             </div>
 
             <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <p style={{ margin: 0, fontSize: 20, fontWeight: 800, color: '#0f172a', textAlign: 'center', lineHeight: 1.4 }}>
+              <p style={{ margin: 0, fontSize: 16, fontWeight: 800, color: '#0f172a', textAlign: 'center', lineHeight: 1.4 }}>
                 {fase === 'evaluacion' || gameOver ? mensaje : escena.pregunta}
               </p>
             </div>

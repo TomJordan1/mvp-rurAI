@@ -27,7 +27,7 @@ const DungeonCrawler = ({ data, onGameEnd }) => {
         <h2 className="text-xl font-bold text-teal-400">Top-Down Dungeon Crawler</h2>
         <p className="text-slate-400 text-sm">WASD para moverte - Flechas para disparar</p>
       </div>
-      <div className="relative" style={{ width: '800px', height: '600px' }}>
+      <div className="relative w-full" style={{ maxWidth: '800px', aspectRatio: '4 / 3' }}>
         <GameCanvas />
         <GameHUD />
       </div>
