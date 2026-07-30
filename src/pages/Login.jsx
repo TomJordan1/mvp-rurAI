@@ -90,7 +90,7 @@ const Login = () => {
             </span>
           </div>
           <p style={{ color: '#94a3b8', fontSize: 13, margin: 0, fontWeight: 500 }}>
-            Inteligencia Artificial para Experiencias Educativas
+            Reduciendo la brecha, un juego a la vez.
           </p>
         </div>
 
