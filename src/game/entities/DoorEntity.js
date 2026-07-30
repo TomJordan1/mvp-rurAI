@@ -44,37 +44,51 @@ export class DoorEntity extends Entity {
       if (roomState === 'HOSTILE') return; // Hide text when hostile
 
       const text = this.answerData.text;
-      ctx.font = 'bold 20px system-ui';
-      const textMetrics = ctx.measureText(text);
-      const paddingX = 12;
-      const paddingY = 8;
+      
+      // Dynamic font size: scale based on canvas width and text length
+      const canvasW = ctx.canvas.width;
+      const maxLabelWidth = canvasW * 0.28; // max 28% of canvas width per label
+      let fontSize = Math.min(14, canvasW / 60); // base responsive size
+      
+      ctx.font = `bold ${fontSize}px system-ui`;
+      let textMetrics = ctx.measureText(text);
+      
+      // Shrink further if text is too wide for the available space
+      while (textMetrics.width > maxLabelWidth && fontSize > 9) {
+        fontSize -= 0.5;
+        ctx.font = `bold ${fontSize}px system-ui`;
+        textMetrics = ctx.measureText(text);
+      }
+
+      const paddingX = 8;
+      const paddingY = 5;
       const bgWidth = textMetrics.width + paddingX * 2;
-      const bgHeight = 30 + paddingY * 2;
+      const bgHeight = fontSize + paddingY * 2 + 4;
       
       let bgX, bgY;
       
       // Position text box to ensure it's inside the room bounds
       if (this.position === 'WEST') {
-        bgX = this.x + this.width + 10;
+        bgX = this.x + this.width + 8;
         bgY = this.y + this.height / 2 - bgHeight / 2;
       } else if (this.position === 'EAST') {
-        bgX = this.x - bgWidth - 10;
+        bgX = this.x - bgWidth - 8;
         bgY = this.y + this.height / 2 - bgHeight / 2;
       } else if (this.position === 'NORTH') {
         bgX = this.x + this.width / 2 - bgWidth / 2;
-        bgY = this.y + this.height + 10;
+        bgY = this.y + this.height + 8;
       } else { // SOUTH
         bgX = this.x + this.width / 2 - bgWidth / 2;
-        bgY = this.y - bgHeight - 10;
+        bgY = this.y - bgHeight - 8;
       }
 
       // Draw text background
-      ctx.fillStyle = 'rgba(15, 23, 42, 0.85)'; // Dark slate background, slightly transparent
+      ctx.fillStyle = 'rgba(15, 23, 42, 0.9)';
       ctx.beginPath();
-      ctx.roundRect(bgX, bgY, bgWidth, bgHeight, 8);
+      ctx.roundRect(bgX, bgY, bgWidth, bgHeight, 6);
       ctx.fill();
-      ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
-      ctx.lineWidth = 2;
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
+      ctx.lineWidth = 1.5;
       ctx.stroke();
 
       // Draw text

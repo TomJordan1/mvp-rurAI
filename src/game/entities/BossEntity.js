@@ -1,6 +1,7 @@
 import { Entity } from './Entity';
 import { EnemyEntity } from './EnemyEntity';
 import { MeleeChaser } from './MeleeChaser';
+import { useGameStore } from '../../store/useGameStore';
 
 // Represents a vulnerable part of the Boss
 class BossPart extends Entity {
@@ -114,7 +115,6 @@ export class BossEntity {
       // All parts die
       this.parts.forEach(p => p.markedForDeletion = true);
       // Trigger VICTORY
-      const { useGameStore } = require('../../store/useGameStore');
       useGameStore.getState().setRoomState('VICTORY');
     }
   }
@@ -183,15 +183,21 @@ export class BossEntity {
   }
 
   draw(ctx) {
-    // Boss doesn't draw itself globally, its parts are drawn via enemy list
-    // But we can draw the Boss HP bar at the top
+    // Boss HP bar at the top, centered
+    const barWidth = 500;
+    const barX = (ctx.canvas.width - barWidth) / 2;
     ctx.fillStyle = '#000';
-    ctx.fillRect(150, 20, 500, 20);
+    ctx.fillRect(barX, 20, barWidth, 20);
     ctx.fillStyle = '#ef4444';
-    ctx.fillRect(152, 22, (496 * (this.hp / this.maxHp)), 16);
+    ctx.fillRect(barX + 2, 22, ((barWidth - 4) * (this.hp / this.maxHp)), 16);
     
+    // Boss name centered on the HP bar
+    const bossName = useGameStore.getState().bossName || 'JEFE';
     ctx.fillStyle = '#fff';
-    ctx.font = '14px Arial';
-    ctx.fillText("MAMÁ", 380, 35);
+    ctx.font = 'bold 12px system-ui';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(bossName.toUpperCase(), ctx.canvas.width / 2, 30);
+    ctx.textAlign = 'start'; // reset
   }
 }

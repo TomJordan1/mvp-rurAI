@@ -1,11 +1,23 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { usePlayerStore } from '../../store/usePlayerStore';
 import { useGameStore } from '../../store/useGameStore';
 import { Heart } from 'lucide-react';
 
 export const GameHUD = () => {
   const { hp, maxHp, lastBonus, damage, fireRate, movementSpeed } = usePlayerStore();
-  const { currentQuestion, roomState } = useGameStore();
+  const { currentQuestion, roomState, bossName } = useGameStore();
+  const [showBossLabel, setShowBossLabel] = useState(false);
+
+  // Show "DEFEAT X!" for 3 seconds when boss fight starts
+  useEffect(() => {
+    if (roomState === 'BOSS_FIGHT') {
+      setShowBossLabel(true);
+      const timer = setTimeout(() => setShowBossLabel(false), 3000);
+      return () => clearTimeout(timer);
+    } else {
+      setShowBossLabel(false);
+    }
+  }, [roomState]);
 
   const renderHearts = () => {
     const hearts = [];
@@ -40,7 +52,7 @@ export const GameHUD = () => {
             {roomState === 'QUESTION' && 'Choose a Door'}
             {roomState === 'HOSTILE' && 'Clear the Room!'}
             {roomState === 'CLEAR' && 'Room Cleared'}
-            {roomState === 'BOSS_FIGHT' && 'DEFEAT MAMÁ!'}
+            {roomState === 'BOSS_FIGHT' && showBossLabel && `¡VENCE A ${bossName.toUpperCase()}!`}
           </h2>
         </div>
       </div>
@@ -77,7 +89,7 @@ export const GameHUD = () => {
       {roomState === 'BOSS_INTRO' && (
         <div className="absolute inset-0 bg-black/70 flex flex-col items-center justify-center z-50 pointer-events-none">
           <h1 className="text-7xl font-black text-red-600 mb-8 drop-shadow-[0_0_20px_rgba(220,38,38,1)] animate-[pulse_0.5s_ease-in-out_infinite] scale-150 transform tracking-widest">
-            MAMÁ IS HERE!
+            ¡{bossName.toUpperCase()} APARECE!
           </h1>
         </div>
       )}
@@ -99,7 +111,7 @@ export const GameHUD = () => {
       {roomState === 'VICTORY' && (
         <div className="absolute inset-0 bg-white/90 flex flex-col items-center justify-center z-50 pointer-events-auto">
           <h1 className="text-6xl font-black text-yellow-500 mb-8 drop-shadow-[0_0_15px_rgba(234,179,8,0.8)]">¡FELICIDADES!</h1>
-          <p className="text-xl font-bold text-slate-800 mb-8">Has derrotado a Mamá</p>
+          <p className="text-xl font-bold text-slate-800 mb-8">Has derrotado a {bossName}</p>
           <div className="flex gap-4">
             <button 
               onClick={() => window.location.reload()}

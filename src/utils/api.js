@@ -128,10 +128,18 @@ const handleRequest = async (method, url, data) => {
       };
     } else if (data.motor === 'ACCION') {
       dataIa = {
+        personajes: [
+          { nombre: 'Estudiante', hp: 100 },
+          { nombre: 'Guardián de ' + (tema ? tema.nombre : 'Conocimiento'), hp: 100 }
+        ],
         escenas: preguntas
       };
     } else {
       dataIa = {
+        personajes: [
+          { nombre: 'Estudiante', hp: 100 },
+          { nombre: 'Jefe de ' + areaTema, hp: 80 }
+        ],
         escenas: preguntas
       };
     }

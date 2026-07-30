@@ -20,6 +20,7 @@ export const useGameStore = create((set, get) => ({
   enemiesAlive: 0,
   aciertos: 0,
   errores: 0,
+  bossName: 'JEFE',
   
   setRoomState: (state) => set({ roomState: state }),
   
@@ -38,8 +39,13 @@ export const useGameStore = create((set, get) => ({
         respuesta: 0
       }));
     }
+
+    // Nombre del boss: usar el segundo personaje si existe, o fallback
+    const bossName = (data && data.personajes && data.personajes[1])
+      ? data.personajes[1].nombre
+      : 'JEFE';
     
-    set({ questions: qs, roomsCleared: 0, roomState: 'QUESTION', aciertos: 0, errores: 0 });
+    set({ questions: qs, roomsCleared: 0, roomState: 'QUESTION', aciertos: 0, errores: 0, bossName });
     get().loadRoom(0);
   },
 
