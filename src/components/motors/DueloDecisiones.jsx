@@ -334,22 +334,47 @@ const DueloDecisiones = ({ data, onGameEnd }) => {
 
   const estrellasDificultad = '⭐'.repeat(dificultad);
 
+  const wrapperRef = useRef(null);
+  const [gameScale, setGameScale] = useState(1);
+
+  useEffect(() => {
+    const updateScale = () => {
+      if (wrapperRef.current) {
+        const parentWidth = wrapperRef.current.offsetWidth;
+        setGameScale(Math.min(1, parentWidth / 1000));
+      }
+    };
+    updateScale();
+    window.addEventListener('resize', updateScale);
+    return () => window.removeEventListener('resize', updateScale);
+  }, []);
+
   return (
-    <div style={{
+    <div ref={wrapperRef} style={{
       width: '100%',
       maxWidth: 1000,
-      height: 700,
-      maxHeight: 'calc(100vh - 120px)',
       margin: '0 auto',
       position: 'relative',
-      borderRadius: 24,
+      height: 700 * gameScale,
       overflow: 'hidden',
-      userSelect: 'none',
-      boxShadow: '0 24px 50px rgba(0,0,0,0.6)',
-      backgroundImage: `url(${bgUrl})`,
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
     }}>
+      {/* Scale wrapper — escala todo el juego al ancho disponible */}
+      <div style={{
+        width: 1000,
+        height: 700,
+        transformOrigin: 'top left',
+        transform: `scale(${gameScale})`,
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        borderRadius: 24,
+        overflow: 'hidden',
+        userSelect: 'none',
+        boxShadow: '0 24px 50px rgba(0,0,0,0.6)',
+        backgroundImage: `url(${bgUrl})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      }}>
 
       {/* ── ESTILOS GLOBALES DE ANIMACIÓN ── */}
       <style>{`
@@ -389,7 +414,7 @@ const DueloDecisiones = ({ data, onGameEnd }) => {
 
       {/* ── PERSONAJES Y HUD ── */}
       <div style={{
-        position: 'absolute', top: 30, left: 30, zIndex: 10,
+        position: 'absolute', top: 30, left: 30, zIndex: 20,
         opacity: (fase !== 'inicio') ? 1 : 0, transition: 'opacity 0.5s ease',
       }}>
         <CharCard nombre={nombreEnemigo} nivel={100} hp={hpEnemigo} maxHp={maxHpEnemigo} extraBorder="#ef4444" />
@@ -415,7 +440,7 @@ const DueloDecisiones = ({ data, onGameEnd }) => {
       </div>
 
       <div style={{
-        position: 'absolute', bottom: 300, right: 30, zIndex: 10,
+        position: 'absolute', bottom: 300, right: 30, zIndex: 20,
         opacity: (fase !== 'inicio' && fase !== 'intro_enemy') ? 1 : 0, transition: 'opacity 0.5s ease',
       }}>
         <CharCard nombre={nombreJugador} nivel={100} hp={hpJugador} maxHp={maxHpJugador} extraBorder="#3b82f6" />
@@ -565,6 +590,7 @@ const DueloDecisiones = ({ data, onGameEnd }) => {
           </button>
         </div>
       )}
+    </div>
     </div>
   );
 };
