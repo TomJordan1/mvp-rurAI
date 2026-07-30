@@ -338,7 +338,8 @@ const DueloDecisiones = ({ data, onGameEnd }) => {
     <div style={{
       width: '100%',
       maxWidth: 1000,
-      aspectRatio: '10 / 7',
+      height: 700,
+      maxHeight: 'calc(100vh - 120px)',
       margin: '0 auto',
       position: 'relative',
       borderRadius: 24,
@@ -414,14 +415,14 @@ const DueloDecisiones = ({ data, onGameEnd }) => {
       </div>
 
       <div style={{
-        position: 'absolute', bottom: '43%', right: '3%', zIndex: 10,
+        position: 'absolute', bottom: 300, right: 30, zIndex: 10,
         opacity: (fase !== 'inicio' && fase !== 'intro_enemy') ? 1 : 0, transition: 'opacity 0.5s ease',
       }}>
         <CharCard nombre={nombreJugador} nivel={100} hp={hpJugador} maxHp={maxHpJugador} extraBorder="#3b82f6" />
       </div>
 
       <div style={{
-        position: 'absolute', bottom: '38%', left: '8%', zIndex: 6,
+        position: 'absolute', bottom: 260, left: 80, zIndex: 6,
         transform: (fase !== 'inicio' && fase !== 'intro_enemy') ? 'translateX(0)' : 'translateX(-400px)',
         transition: 'transform 1s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
         opacity: (fase !== 'inicio' && fase !== 'intro_enemy') ? 1 : 0
@@ -433,11 +434,11 @@ const DueloDecisiones = ({ data, onGameEnd }) => {
       {(fase === 'turno_jugador' || fase === 'evaluacion' || gameOver) && (
         <div style={{
           position: 'absolute', bottom: 0, left: 0, right: 0,
-          padding: '2% 2.5%',
+          padding: '16px 20px',
           display: 'flex',
-          gap: '2%',
+          gap: 16,
           alignItems: 'stretch',
-          height: '40%',
+          height: 260,
           zIndex: 100,
           animation: 'slide-up 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)'
         }}>
@@ -487,8 +488,7 @@ const DueloDecisiones = ({ data, onGameEnd }) => {
 
           {/* Caja PREGUNTA */}
           <div style={{
-            width: '35%',
-            minWidth: 200,
+            width: 300,
             background: 'rgba(255, 255, 255, 0.95)',
             border: '4px solid #1e293b',
             borderRadius: 16,
