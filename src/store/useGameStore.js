@@ -40,10 +40,15 @@ export const useGameStore = create((set, get) => ({
       }));
     }
 
-    // Nombre del boss: usar el segundo personaje si existe, o fallback
-    const bossName = (data && data.personajes && data.personajes[1])
-      ? data.personajes[1].nombre
-      : 'JEFE';
+    // Nombre del boss: usar personajes[1], o derivar del título de la actividad
+    let bossName = 'JEFE';
+    if (data && data.personajes && data.personajes[1]) {
+      bossName = data.personajes[1].nombre;
+    } else if (data && data._titulo) {
+      // Extraer nombre del título (ej: "Desafío de Álgebra" → "Guardián de Álgebra")
+      const tituloBase = data._titulo.replace(/^Desafío de /, '');
+      bossName = 'Guardián de ' + tituloBase;
+    }
     
     set({ questions: qs, roomsCleared: 0, roomState: 'QUESTION', aciertos: 0, errores: 0, bossName });
     get().loadRoom(0);

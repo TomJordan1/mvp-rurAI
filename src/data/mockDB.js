@@ -29,7 +29,7 @@ export const initialData = {
       titulo: 'Fracciones en Acción', 
       descripcion: 'Aprende a sumar fracciones con el dragón',
       dataIa: { 
-        personajes: [{ nombre: 'Héroe', hp: 100 }, { nombre: 'Dragón', hp: 80 }], 
+        personajes: [{ nombre: 'Héroe', hp: 100 }, { nombre: 'Dragón Numérico', hp: 80 }], 
         escenas: [
           { pregunta: '¿Cuánto es 1/2 + 1/4?', opciones: ['3/4', '1/6', '2/6', '1/2'], respuesta: 0 },
           { pregunta: '¿Cuánto es 2/3 - 1/3?', opciones: ['1/3', '1/6', '1/2', '2/3'], respuesta: 0 }

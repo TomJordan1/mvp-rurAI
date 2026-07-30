@@ -362,7 +362,7 @@ const Play = () => {
           <Suspense fallback={<SkeletonLoader />}>
             {actividad.tipoMotor === 'RPG' && <DueloDecisiones data={actividad.dataIa} onGameEnd={handleGameEnd} />}
             {actividad.tipoMotor === 'TD' && <ClasificadorDefensivo data={actividad.dataIa} onGameEnd={handleGameEnd} />}
-            {actividad.tipoMotor === 'ACCION' && <DungeonCrawler data={actividad.dataIa} onGameEnd={handleGameEnd} />}
+            {actividad.tipoMotor === 'ACCION' && <DungeonCrawler data={{ ...actividad.dataIa, _titulo: actividad.titulo }} onGameEnd={handleGameEnd} />}
           </Suspense>
         </div>
       )}
