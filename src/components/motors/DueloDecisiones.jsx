@@ -214,7 +214,7 @@ const DueloDecisiones = ({ data, onGameEnd }) => {
   const escena = escenas[escenaIndex % totalEscenas];
 
   const nombreJugador = personajes[0]?.nombre || 'Héroe';
-  const nombreEnemigo = 'Monstruo'; // Forzar siempre el nombre Monstruo
+  const nombreEnemigo = personajes[1]?.nombre || 'Monstruo';
 
   // Control de Cinemática Inicial
   useEffect(() => {
@@ -242,7 +242,7 @@ const DueloDecisiones = ({ data, onGameEnd }) => {
     setDificultad(generarDificultad());
     setMensaje(`${nombreEnemigo} se prepara para atacar...`);
 
-    // Animación de ataque del monstruo lanzando la pregunta
+    // Animación de ataque del enemigo lanzando la pregunta
     setTimeout(() => {
       setIsEnemyAttacking(true);
       setShowQuestionAnim(true); // Activar animación de "❓❓" volando
@@ -326,7 +326,7 @@ const DueloDecisiones = ({ data, onGameEnd }) => {
   const terminar = (win) => {
     setGameOver(true);
     setVictoria(win);
-    setMensaje(win ? '¡Has derrotado al monstruo de manera épica!' : 'Te quedaste sin energía...');
+    setMensaje(win ? `¡Has derrotado a ${nombreEnemigo} de manera épica!` : 'Te quedaste sin energía...');
     if (onGameEnd) {
       onGameEnd({ aciertos: stats.current.aciertos, errores: stats.current.errores });
     }

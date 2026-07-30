@@ -52,10 +52,18 @@ export const GameHUD = () => {
             {roomState === 'QUESTION' && 'Choose a Door'}
             {roomState === 'HOSTILE' && 'Clear the Room!'}
             {roomState === 'CLEAR' && 'Room Cleared'}
-            {roomState === 'BOSS_FIGHT' && showBossLabel && `¡VENCE A ${bossName.toUpperCase()}!`}
           </h2>
         </div>
       </div>
+
+      {/* Boss fight label — centered on screen, disappears after 3s */}
+      {roomState === 'BOSS_FIGHT' && showBossLabel && (
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-40">
+          <h2 className="text-2xl md:text-3xl font-black text-white bg-black/60 px-6 py-3 rounded-xl border border-white/20 backdrop-blur-sm drop-shadow-lg text-center">
+            ¡VENCE A {bossName.toUpperCase()}!
+          </h2>
+        </div>
+      )}
 
       {/* Bottom Bar: Hearts and Stats */}
       <div className="flex flex-col gap-2 self-start">
@@ -87,8 +95,8 @@ export const GameHUD = () => {
 
       {/* BOSS INTRO Overlay */}
       {roomState === 'BOSS_INTRO' && (
-        <div className="absolute inset-0 bg-black/70 flex flex-col items-center justify-center z-50 pointer-events-none">
-          <h1 className="text-7xl font-black text-red-600 mb-8 drop-shadow-[0_0_20px_rgba(220,38,38,1)] animate-[pulse_0.5s_ease-in-out_infinite] scale-150 transform tracking-widest">
+        <div className="absolute inset-0 bg-black/70 flex flex-col items-center justify-center z-50 pointer-events-none px-4">
+          <h1 className="text-3xl md:text-4xl font-black text-red-600 drop-shadow-[0_0_20px_rgba(220,38,38,1)] animate-[pulse_0.5s_ease-in-out_infinite] tracking-wide text-center">
             ¡{bossName.toUpperCase()} APARECE!
           </h1>
         </div>
