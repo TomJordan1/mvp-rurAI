@@ -17,6 +17,8 @@ export const useGameStore = create((set, get) => ({
     let qs = [];
     if (data && data.escenas && data.escenas.length > 0) {
       qs = data.escenas;
+    } else if (data && data.preguntasTrivia && data.preguntasTrivia.length > 0) {
+      qs = data.preguntasTrivia;
     } else if (data && data.preguntas && data.preguntas.length > 0) {
       qs = data.preguntas;
     } else {
@@ -46,9 +48,17 @@ export const useGameStore = create((set, get) => ({
     const distractors = q.opciones ? q.opciones.filter((_, i) => i !== correctIdx) : q.distractors || ["A", "B", "C"];
     const correctText = q.opciones ? q.opciones[correctIdx] : q.correct || "Correcta";
 
+    // Garantizar siempre 3 distractores para las 4 puertas
+    const padded = [...distractors];
+    const fallbacks = ["Opción D", "Opción E", "Opción F"];
+    let fi = 0;
+    while (padded.length < 3) {
+      padded.push(fallbacks[fi++] || `Opción ${padded.length + 1}`);
+    }
+
     const answers = [
       { text: correctText, correct: true },
-      ...distractors.map(d => ({ text: d, correct: false }))
+      ...padded.slice(0, 3).map(d => ({ text: d, correct: false }))
     ];
     answers.sort(() => Math.random() - 0.5);
     

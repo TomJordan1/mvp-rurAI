@@ -102,28 +102,104 @@ const handleRequest = async (method, url, data) => {
     const temas = mockDB.getTemas();
     const tema = temas.find(t => t.id === data.temaId);
     
+    const nombreTema = tema ? tema.nombre : 'este tema';
+    const areaTema   = tema ? tema.area   : 'el área';
+
     let dataIa = {};
     if (data.motor === 'RPG') {
       dataIa = {
-        personajes: [{ nombre: 'Estudiante', hp: 100 }, { nombre: 'Jefe ' + (tema ? tema.area : ''), hp: 80 }],
+        personajes: [
+          { nombre: 'Estudiante', hp: 100 },
+          { nombre: 'Jefe de ' + areaTema, hp: 80 }
+        ],
         escenas: [
-          { pregunta: `¿Cuál es el concepto principal de ${tema ? tema.nombre : 'este tema'}?`, opciones: ['La base teórica', 'Una aplicación práctica', 'Un error común', 'No tiene utilidad'], respuesta: 0 },
-          { pregunta: `Si aplicas ${tema ? tema.nombre : 'esto'} en la vida real, ¿qué sucede?`, opciones: ['Se resuelve un problema', 'Todo explota', 'Nada cambia', 'Magia'], respuesta: 0 }
+          {
+            pregunta: `¿Cuál es el concepto principal de "${nombreTema}"?`,
+            opciones: ['La base teórica del tema', 'Una aplicación práctica errónea', 'Un concepto de otra área', 'No tiene utilidad curricular'],
+            respuesta: 0
+          },
+          {
+            pregunta: `Si aplicas "${nombreTema}" en la vida real, ¿qué resultado obtienes?`,
+            opciones: ['Se resuelve un problema concreto', 'Se genera confusión adicional', 'No cambia nada', 'Solo sirve en teoría'],
+            respuesta: 0
+          },
+          {
+            pregunta: `¿En qué área curricular se trabaja "${nombreTema}"?`,
+            opciones: [areaTema, 'Educación Física', 'Arte y Cultura', 'Inglés'],
+            respuesta: 0
+          }
         ]
       };
     } else if (data.motor === 'TD') {
       dataIa = {
         preguntasTrivia: [
-          { pregunta: `Identifica la característica de: ${tema ? tema.nombre : 'Tema 1'}`, opciones: ['Característica A', 'Característica B', 'Falso'], respuesta: 0 },
-          { pregunta: `¿Verdadero o falso sobre ${tema ? tema.nombre : 'Tema 1'}?`, opciones: ['Verdadero', 'Falso', 'Depende'], respuesta: 0 },
-          { pregunta: `Selecciona el elemento correcto de ${tema ? tema.area : 'el área'}`, opciones: ['Elemento 1', 'Elemento 2', 'Elemento 3'], respuesta: 0 }
+          {
+            pregunta: `¿Cuál es la característica principal de "${nombreTema}"?`,
+            opciones: ['Permite comprender y aplicar el tema', 'Es una actividad física', 'No tiene relación con el currículo', 'Solo se usa en primaria'],
+            respuesta: 0
+          },
+          {
+            pregunta: `¿En qué área se estudia "${nombreTema}"?`,
+            opciones: [areaTema, 'Ciencias Sociales', 'Inglés', 'Arte y Cultura'],
+            respuesta: 0
+          },
+          {
+            pregunta: `¿Cuál de estos es un ejemplo de "${nombreTema}"?`,
+            opciones: [`Aplicación directa de ${nombreTema}`, 'Concepto ajeno al tema', 'Actividad deportiva', 'Recurso de otra materia'],
+            respuesta: 0
+          },
+          {
+            pregunta: `¿Qué habilidad desarrolla "${nombreTema}" en el estudiante?`,
+            opciones: ['Pensamiento crítico y analítico', 'Habilidad motriz fina', 'Expresión artística', 'Comunicación oral únicamente'],
+            respuesta: 0
+          },
+          {
+            pregunta: `¿Cómo se evalúa el aprendizaje de "${nombreTema}"?`,
+            opciones: ['Mediante resolución de problemas', 'Solo con exámenes escritos', 'No se evalúa', 'Con actividades físicas'],
+            respuesta: 0
+          }
+        ]
+      };
+    } else if (data.motor === 'ACCION') {
+      dataIa = {
+        escenas: [
+          {
+            pregunta: `¿Cuál es la definición correcta de "${nombreTema}"?`,
+            opciones: [`Definición precisa de ${nombreTema}`, 'Concepto incorrecto del tema', 'Definición de otro tema', 'Ninguna de las anteriores'],
+            respuesta: 0
+          },
+          {
+            pregunta: `¿Qué elemento es fundamental en "${nombreTema}"?`,
+            opciones: [`Elemento clave de ${nombreTema}`, 'Elemento ajeno al tema', 'Dato irrelevante', 'Concepto opuesto'],
+            respuesta: 0
+          },
+          {
+            pregunta: `¿Cómo se aplica "${nombreTema}" en un contexto real?`,
+            opciones: [`Aplicando los principios de ${nombreTema}`, 'Ignorando el concepto base', 'Mezclando con otra área', 'No tiene aplicación real'],
+            respuesta: 0
+          },
+          {
+            pregunta: `¿Qué relación tiene "${nombreTema}" con "${areaTema}"?`,
+            opciones: [`Es un contenido central de ${areaTema}`, 'No tiene relación con el área', 'Es de nivel universitario', 'Solo aplica en primaria'],
+            respuesta: 0
+          },
+          {
+            pregunta: `¿Cuál es el error más común al estudiar "${nombreTema}"?`,
+            opciones: ['Confundir los conceptos base', `Aplicar correctamente ${nombreTema}`, 'Relacionarlo con su área', 'Practicar con ejemplos'],
+            respuesta: 0
+          }
         ]
       };
     } else {
-      // Default/SIM o cualquier otro
+      // Fallback genérico con 4 opciones válidas
       dataIa = {
-        escenas: [{ pregunta: `Decisión sobre ${tema ? tema.nombre : 'tema'}`, opciones: ['Opción A', 'Opción B', 'Opción C'], respuesta: 1 }],
-        preguntasTrivia: [{ pregunta: `Pregunta de ${tema ? tema.nombre : 'tema'}`, opciones: ['1', '2'], respuesta: 0 }]
+        escenas: [
+          {
+            pregunta: `¿Cuál es el concepto central de "${nombreTema}"?`,
+            opciones: [`Concepto correcto de ${nombreTema}`, 'Concepto incorrecto A', 'Concepto incorrecto B', 'Concepto incorrecto C'],
+            respuesta: 0
+          }
+        ]
       };
     }
 
