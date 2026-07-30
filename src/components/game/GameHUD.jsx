@@ -64,12 +64,12 @@ export const GameHUD = () => {
         </div>
       </div>
 
-      {/* Center: Question Text */}
+      {/* Question text in the dark border bar (top) */}
       {roomState === 'QUESTION' && currentQuestion && (
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center bg-black/60 p-4 rounded-xl backdrop-blur-sm border border-white/20 shadow-2xl">
-          <h1 className="text-3xl font-extrabold text-white">
+        <div className="absolute top-0 left-0 right-0 h-[50px] flex items-center justify-center pointer-events-none">
+          <p className="text-sm font-bold text-white/90 text-center px-4 truncate max-w-[90%]">
             {currentQuestion.question}
-          </h1>
+          </p>
         </div>
       )}
 

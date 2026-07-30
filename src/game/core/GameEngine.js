@@ -290,13 +290,13 @@ export class GameEngine {
     this.ctx.fillStyle = gameStore.roomState === 'BOSS_FIGHT' ? '#451a03' : '#cbd5e1'; 
     this.ctx.fillRect(this.roomBounds.x, this.roomBounds.y, this.roomBounds.width, this.roomBounds.height);
 
-    // Draw entities
-    this.entities.doors.forEach(e => e.draw(this.ctx));
+    // Draw entities (doors/labels painted LAST so they appear on top)
     this.entities.walls.forEach(e => e.draw(this.ctx));
     this.entities.items.forEach(e => e.draw(this.ctx));
     this.entities.enemies.forEach(e => e.draw(this.ctx));
     this.entities.players.forEach(e => e.draw(this.ctx));
     this.entities.projectiles.forEach(e => e.draw(this.ctx));
-    this.entities.bosses.forEach(e => e.draw(this.ctx)); // HP Bar
+    this.entities.bosses.forEach(e => e.draw(this.ctx));
+    this.entities.doors.forEach(e => e.draw(this.ctx));
   }
 }

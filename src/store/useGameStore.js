@@ -1,6 +1,16 @@
 import { create } from 'zustand';
 import { usePlayerStore } from './usePlayerStore';
 
+// Fisher-Yates shuffle — aleatorización uniforme sin sesgo
+const shuffle = (arr) => {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+};
+
 export const useGameStore = create((set, get) => ({
   roomState: 'QUESTION', // QUESTION, HOSTILE, BOSS_FIGHT, GAME_OVER, VICTORY
   questions: [],
@@ -60,15 +70,15 @@ export const useGameStore = create((set, get) => ({
       { text: correctText, correct: true },
       ...padded.slice(0, 3).map(d => ({ text: d, correct: false }))
     ];
-    answers.sort(() => Math.random() - 0.5);
+    const shuffled = shuffle(answers);
     
     set({
       currentQuestion: { question: q.pregunta || q.question },
       doors: isPenalized ? [] : [
-        { ...answers[0], position: 'NORTH' },
-        { ...answers[1], position: 'SOUTH' },
-        { ...answers[2], position: 'EAST' },
-        { ...answers[3], position: 'WEST' },
+        { ...shuffled[0], position: 'NORTH' },
+        { ...shuffled[1], position: 'SOUTH' },
+        { ...shuffled[2], position: 'EAST' },
+        { ...shuffled[3], position: 'WEST' },
       ],
       roomState: isPenalized ? 'HOSTILE' : 'QUESTION',
       enemiesAlive: isPenalized ? 3 : 0,
